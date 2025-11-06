@@ -136,6 +136,8 @@ def eval_genome(genome, config, verbose=False, fixed=-1, points_to_use=[]):
     if verbose:
         data["fitness"]=fitness
         df = pd.DataFrame(dict([ (k,pd.Series(v)) for k,v in data.items() ]))
+        if not os.path.exists('./result_algorithm'):
+            os.makedirs('./result_algorithm')
         df.to_csv('./result_algorithm/tableResults_'+type_optimization+'.csv', index=False)
     return fitness
 
@@ -175,6 +177,8 @@ def run():
         winner = pop.run(pe.evaluate, num_generation)
 
     # Save the winner.
+    if not os.path.exists('results'):
+        os.makedirs('results')
     with open('results/winner-rnn', 'wb') as f:
         pickle.dump(winner, f)
 
@@ -233,16 +237,16 @@ def run():
 
 
     if(1):
-        visualize.plot_stats(stats, ylog=True, view=False, filename="results/rnn-fitness.svg")
-        visualize.plot_species(stats, view=False, filename="results/rnn-speciation.svg")
+        visualize.plot_stats(stats, ylog=True, view=True, filename="results/rnn-fitness.svg")
+        visualize.plot_species(stats, view=True, filename="results/rnn-speciation.svg")
 
         node_names = {0: 'omega', 1: 'theta', 2: 'psi', 3: 'fi', 4: 'ro', 5: 'epsilon', -3: 'x', -2: 'y', -1: 'z'}
 
-        visualize.draw_net(config, winner, view=False, node_names=node_names,
+        visualize.draw_net(config, winner, view=True, node_names=node_names,
                            filename="results/winner-rnn.gv")
-        visualize.draw_net(config, winner, view=False, node_names=node_names,
+        visualize.draw_net(config, winner, view=True, node_names=node_names,
                            filename="results/winner-rnn-enabled.gv", show_disabled=False)
-        visualize.draw_net(config, winner, view=False, node_names=node_names,
+        visualize.draw_net(config, winner, view=True, node_names=node_names,
                            filename="results/winner-rnn-enabled-pruned.gv", show_disabled=False, prune_unused=True)
 
 
