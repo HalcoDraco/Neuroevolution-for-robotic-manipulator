@@ -7,3 +7,4 @@ results/
 *.csv
 *.xlsx
 result_algorithm/
+**/*venv*/
